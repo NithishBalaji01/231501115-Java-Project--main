@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment Search</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #eb7236, #dac0ac);
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        .search-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .search-container h2 {
+            color: #333333;
+            margin-bottom: 20px;
+        }
+
+        .search-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .search-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-container button {
+            background-color: #652727;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background-color: #444444;
+        }
+
+        .results-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .results-container ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .results-container li {
+            background: #ffffff;
+            border: 1px solid #cccccc;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .results-container p {
+            margin: 5px 0;
+        }
+
+        .results-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .results-container input[type="text"] {
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .link-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .link-container a {
+            color: #652727;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Search Section -->
+    <div class="search-container">
+        <h2>Search Equipment</h2>
+        <form action="/equipment_search" method="POST" id="search-form">
+            <input type="text" id="search-name" name="search_name" placeholder="Search by equipment name" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Results Section -->
+    {% if equipment %}
+    <div class="results-container">
+        <h2>Search Results:</h2>
+        <ul>
+            {% for item in equipment %}
+            <li>
+                <p><strong>ID:</strong> {{ item[0] }}</p>
+                <p><strong>Name:</strong> {{ item[1] }}</p>
+                <form action="/request_usage" method="POST">
+                    <input type="hidden" name="equipment_id" value="{{ item[0] }}">
+                    <input type="text" name="room_requested" placeholder="Room/Patient ID" required>
+                    <button type="submit">Request Usage</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Footer Link -->
+    <div class="link-container">
+        <a href="{{ url_for('login') }}">Go to Login Page</a>
+    </div>
+</body>
+</html>

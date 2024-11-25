@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-Up</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle, #eb7236, #dac0ac);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-container {
+            background: #ffffffa6;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .signup-container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #000000;
+        }
+
+        .signup-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-align: left;
+            color: #000000;
+        }
+
+        .signup-container input[type="text"],
+        .signup-container input[type="password"],
+        .signup-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .signup-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #652727;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .signup-container button:hover {
+            background-color: #ff4b70;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #333333;
+            text-align: center;
+        }
+
+        .login-link span {
+            margin-right: 5px;
+        }
+
+        .login-link a {
+            color: #b16262;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .signup-container {
+                padding: 20px;
+            }
+
+            .signup-container h2 {
+                font-size: 20px;
+            }
+
+            .signup-container button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Sign Up Seiavum</h2>
+        <form id="signup-form">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Name kudukavum" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password create pannavum" required>
+
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+                <option value="" disabled selected>Neenga enna role</option> <!-- Placeholder -->
+                <option value="Manager">Manager</option>
+                <option value="Member">Member</option>
+            </select>
+
+
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <div class="login-link">
+            <span>Already have an account?</span>
+            <a href="login.html">Log in here</a>
+        </div>
+    </div>
+</body>
+</html>

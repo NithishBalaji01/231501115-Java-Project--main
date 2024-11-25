@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request List</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #eb7236, #dac0ac); /* Gradient background */
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+
+        table {
+            width: 100%;
+            max-width: 1200px;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+
+        th {
+            background-color: #652727; 
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        td button {
+            padding: 8px 12px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 150px; 
+        }
+
+        td button:hover {
+            background-color: #555;
+            color: #fff;
+        }
+
+        .action-btn {
+            background-color: #652727;
+            color: white;
+        }
+
+        .action-btn:hover {
+            background-color: #ff8787;
+        }
+
+        .view-btn {
+            background-color: #fffcdb;
+            color: rgb(0, 0, 0);
+            margin-top: 20px;
+            width: 100%;
+            padding: 5px;
+            font-size: 16px;
+            text-align: center; 
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .view-btn:hover {
+            background-color: #716565;
+        }
+
+        .login-link {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .login-link a {
+            color: #652727;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>REQUEST FOR USAGE</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Request ID</th>
+                <th>Equipment Name</th>
+                <th>Quantity Requested</th>
+                <th>Request Date</th>
+                <th>Room Requested</th>
+                <th>Requested By</th>
+                <th>Approval Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr id="order-row-{{ order.order_id }}">
+                <td>{{ order.order_id }}</td>
+                <td>{{ order.equipment_name }}</td>
+                <td>{{ order.quantity_ordered }}</td>
+                <td>{{ order.order_date }}</td>
+                <td>{{ order.room_requested }}</td>
+                <td>{{ order.requested_by }}</td>
+                <td>{{ order.approval_status }}</td>
+                <td>
+                    <button class="action-btn" onclick="approveOrder({{ order.order_id }})">Approve</button>
+                    <button class="action-btn" onclick="rejectOrder({{ order.order_id }})">Reject</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button class="view-btn" onclick="location.href='/manager/orders'">View All Requests</button>
+    <button class="view-btn" onclick="location.href='/manager/orders_to_place'">View Orders to Place</button>
+    
+    <div class="login-link">
+        <a href="{{ url_for('login') }}">Go to Login Page</a>
+    </div>
+
+    <script>
+        function approveOrder(orderId) {
+            fetch(`/approve_order/${orderId}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Sent the details to warehouse");
+                        document.getElementById(`order-row-${orderId}`).remove();
+                    } else {
+                        alert("Failed to approve order");
+                    }
+                });
+        }
+
+        function rejectOrder(orderId) {
+            fetch(`/reject_order/${orderId}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Request rejected");
+                        document.getElementById(`order-row-${orderId}`).remove();
+                    } else {
+                        alert("Failed to reject order");
+                    }
+                });
+        }
+    </script>
+</body>
+</html>
